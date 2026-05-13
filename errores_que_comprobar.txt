@@ -1,0 +1,64 @@
+
+Archivo inexistente ✅✅✅✅
+
+Líneas mal formadas ✅✅✅✅
+Ejemplo:
+WIDTH20
+o
+WIDTH:20
+
+Claves desconocidas❌❌❌❌
+Ejemplo:
+WIDHT=20
+
+Claves obligatorias ausentes ❌❌❌❌
+Falta WIDTH, HEIGHT, ENTRY, etc.
+
+Valores vacíos✅✅✅✅
+Ejemplo:
+WIDTH=
+
+Tipos incorrectos❌❌❌❌
+Ejemplo:
+WIDTH=hola
+HEIGHT=3.5
+PERFECT=maybe
+
+Valores inválidos o imposibles ❌❌❌❌
+Ejemplos:
+WIDTH=-5
+HEIGHT=0
+
+Coordenadas mal escritas ❌❌❌❌
+Ejemplo:
+ENTRY=1
+ENTRY=a,b
+ENTRY=1;2
+
+Coordenadas fuera del laberinto ❌❌❌❌
+Ejemplo:
+WIDTH=10
+HEIGHT=10
+EXIT=20,3
+
+Entrada y salida iguales ❌❌❌❌
+Ejemplo:
+ENTRY=0,0
+EXIT=0,0
+
+Valor inválido para PERFECT ❌❌❌❌
+Ejemplo:
+PERFECT=yes
+si solo aceptáis True/False
+
+Duplicación de claves ✅✅✅✅
+Ejemplo:
+WIDTH=10
+WIDTH=20
+
+Problemas al escribir el archivo de salida ❌❌❌❌
+Permisos(DEL QUE LEEMOS) ✅✅✅✅
+Permisos(DEL QUE VAMOS A ESCRIBIR)❌❌❌❌
+Ruta inválida ❌❌❌❌
+Configuración incoherente / imposible ❌❌❌❌
+Por ejemplo un laberinto de 1x1 con entrada y salida distintas.
