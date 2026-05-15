@@ -64,7 +64,7 @@ def parser(argv:str) -> dict[str, str]:
         if len(parameter) == 2:
             if parameter[0] in config:
                 raise InvalidConfiguration(f"repeated key in parameter {parameter[0]}")
-            config[parameter[0]] = parameter[1]
+            config[parameter[0].upper()] = parameter[1]
         else:
             raise InvalidConfiguration(f"number of parameters must be 2, you had {len(parameter)}")
     for key in mandatory_keys:
@@ -84,6 +84,4 @@ def parser(argv:str) -> dict[str, str]:
         else:
             raise InvalidConfiguration(f"Son obligatorias las siguientes argumentos {mandatory_keys.keys()}")
     check_invalid_cord(config)
-    
-    
-    print(config)
+    return config

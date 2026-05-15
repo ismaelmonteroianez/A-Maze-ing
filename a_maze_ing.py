@@ -1,12 +1,17 @@
 from parser import parser
 from errors import InvalidConfiguration, EmptyFile
 import sys
+from map import Map
 
 
 def main():
+    config:dict[str,str]
     if len(sys.argv) == 2:
         try:
-            parser(sys.argv[1])
+            config = parser(sys.argv[1])
+            map = Map(config)
+            map.gen_map()
+            map.print_map()
         except FileNotFoundError as e:
             print(f"File not found: {e}") 
         except PermissionError as e:
@@ -23,3 +28,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         print(f"Something unexpected happened: {e}. Contact developers")
+    

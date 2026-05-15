@@ -62,3 +62,5 @@ Permisos(DEL QUE VAMOS A ESCRIBIR)✅✅✅✅
 Ruta inválida ✅✅✅✅
 Configuración incoherente / imposible ✅✅✅✅
 Por ejemplo un laberinto de 1x1 con entrada y salida distintas.
+
+ACEPTAR TANTO MAYUSCULAS COMO MINUSCULAS XXXXXXX
