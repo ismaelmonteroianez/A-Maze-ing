@@ -26,6 +26,8 @@ class Cell():
 				self.south_wall = False
 			case "W":
 				self.west_wall = False
+			case _:
+				raise Exception(f"This direction doesnt exist: {position}")
 
 	def close_wall(self, position:str) -> None:
 		match position:
@@ -37,6 +39,8 @@ class Cell():
 				self.south_wall = True
 			case "W":
 				self.west_wall = True
+			case _:
+				raise Exception(f"This direction doesnt exist: {position}")
 
 	def get_wall(self, position:str) -> bool:
 		match position:
@@ -54,7 +58,7 @@ class Cell():
 	def visit(self) -> None:
 		self.visited = True
 	
-	def reset_visit(self) -> None:
+	def unvisit(self) -> None:
 		self.visited = False
 
 	def __repr__(self) -> str:

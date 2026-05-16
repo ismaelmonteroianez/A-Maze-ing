@@ -1,0 +1,31 @@
+1. Idea general del algoritmo
+
+El laberinto empieza con:
+
+todas las celdas cerradas (4 paredes), ✅✅✅
+ninguna visitada. ✅✅✅
+
+Luego:
+
+Elegís una celda inicial. ✅✅✅
+Marcáis la celda como visitada. ✅✅✅
+Mientras tenga vecinos no visitados: 
+elegís uno aleatorio,
+rompéis la pared entre ambas,
+avanzáis al vecino.
+Si una celda no tiene vecinos disponibles:
+hacéis backtracking (volver atrás).
+
+Esto crea un árbol de caminos:
+
+todas las celdas conectadas,
+sin ciclos,
+exactamente un camino entre dos puntos → maze perfecto.
+
+PRIORIDAD 2
+
+Export hexadecimal.
+
+PRIORIDAD 3
+
+BFS shortest path.

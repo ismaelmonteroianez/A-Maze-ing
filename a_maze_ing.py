@@ -2,6 +2,7 @@ from parser import parser
 from errors import InvalidConfiguration, EmptyFile
 import sys
 from map import Map
+from map_generator import MapGenerator
 
 
 def main():
@@ -10,8 +11,8 @@ def main():
         try:
             config = parser(sys.argv[1])
             map = Map(config)
-            map.gen_map()
-            map.print_map()
+            generator = MapGenerator(map)
+            generator.generate()
         except FileNotFoundError as e:
             print(f"File not found: {e}") 
         except PermissionError as e:
@@ -28,4 +29,3 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         print(f"Something unexpected happened: {e}. Contact developers")
-    
