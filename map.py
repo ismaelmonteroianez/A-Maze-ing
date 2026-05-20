@@ -1,15 +1,16 @@
 from cell import Cell
 
+
 class Map():
-    width:int
-    height:int
-    entry_y:int
-    entry_x:int
-    exit_y:int
-    exit_x:int
-    output_file:str
-    perfect:bool
-    table:list[list[Cell]]
+    width: int
+    height: int
+    entry_y: int
+    entry_x: int
+    exit_y: int
+    exit_x: int
+    output_file: str
+    perfect: bool
+    table: list[list[Cell]]
 
     def __init__(self, config: dict[str, str]):
         self.width = int(config["WIDTH"])
@@ -57,7 +58,6 @@ class Map():
                 unvisited_neighbors.append((cell, direction))
         return (unvisited_neighbors)
 
-
     def connect(self, a: Cell, b: Cell, direction: str):
         a.open_wall(direction)
         match direction:
@@ -73,5 +73,5 @@ class Map():
     def print_map(self):
         for y in range(self.height):
             for x in range(self.width):
-                print(self.table[y][x], end = "")
+                print(self.table[y][x], end="")
             print()

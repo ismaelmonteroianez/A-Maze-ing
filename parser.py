@@ -1,58 +1,58 @@
 from errors import InvalidConfiguration, EmptyFile
 
 
-def check_int(value:str) -> None:
+def check_int(value: str) -> None:
     num = int(value)
     if num <= 0:
-        raise InvalidConfiguration("El valor no puede ser negativo o 0")
+        raise InvalidConfiguration("Value must be positive")
 
-def check_cord(value:str) -> None:
+
+def check_cord(value: str) -> None:
     cordenadas = value.split(",")
     if len(cordenadas) == 2:
         for cordenada in cordenadas:
             num = int(cordenada)
             if num < 0:
-                raise InvalidConfiguration("El valor no puede ser negativo")
+                raise InvalidConfiguration("Value must be positiveo")
     else:
-        raise InvalidConfiguration("Cordenada invalida")
+        raise InvalidConfiguration("Invalid coordinate")
 
-def check_file(value:str) -> None:
+
+def check_file(value: str) -> None:
     with open(value, "w") as f:
         f.write("Hola")
 
 
-def check_bool(value:str):
+def check_bool(value: str):
     if not (value == "True" or value == "False"):
         raise InvalidConfiguration(f"{value} must be True or False only")
 
 
-def check_invalid_cord(config:dict[str,str]) -> None:
-    width:int = int(config["WIDTH"])
-    height:int = int(config["HEIGHT"])
-    entry:list[str] = config["ENTRY"].split(",")
-    width_entry:int = int(entry[0])
-    height_entry:int = int(entry[1])
-    exit:list[str] = config["EXIT"].split(",")
-    width_exit:int = int(exit[0])
-    height_exit:int = int(exit[1])
+def check_invalid_cord(config: dict[str, str]) -> None:
+    width: int = int(config["WIDTH"])
+    height: int = int(config["HEIGHT"])
+    entry: list[str] = config["ENTRY"].split(",")
+    width_entry: int = int(entry[0])
+    height_entry: int = int(entry[1])
+    exit: list[str] = config["EXIT"].split(",")
+    width_exit: int = int(exit[0])
+    height_exit: int = int(exit[1])
 
     if entry == exit:
         raise InvalidConfiguration("ENTRY and EXIT must not be the same")
     if (width <= width_entry or width <= width_exit):
-        raise InvalidConfiguration("Cordenada incorrecta")
+        raise InvalidConfiguration("Invalid coordinate")
     if (height <= height_entry or height <= height_exit):
-        raise InvalidConfiguration("Cordenada incorrecta")
-    
+        raise InvalidConfiguration("Invalid coordinate")
 
 
-
-def parser(argv:str) -> dict[str, str]:
-    mandatory_keys = {"WIDTH":"int",
-                      "HEIGHT":"int",
-                      "ENTRY":"cord",
-                      "EXIT":"cord",
-                      "OUTPUT_FILE":"file",
-                      "PERFECT":"bool"}
+def parser(argv: str) -> dict[str, str]:
+    mandatory_keys = {"WIDTH": "int",
+                      "HEIGHT": "int",
+                      "ENTRY": "cord",
+                      "EXIT": "cord",
+                      "OUTPUT_FILE": "file",
+                      "PERFECT": "bool"}
     config = {}
     with open(argv, "r") as f:
         file = f.read()
@@ -82,6 +82,6 @@ def parser(argv:str) -> dict[str, str]:
             except Exception as e:
                 raise InvalidConfiguration(e)
         else:
-            raise InvalidConfiguration(f"Son obligatorias las siguientes argumentos {mandatory_keys.keys()}")
+            raise InvalidConfiguration(f"The following arguments are mandatory: {mandatory_keys.keys()}")
     check_invalid_cord(config)
     return config

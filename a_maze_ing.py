@@ -6,7 +6,7 @@ from map_generator import MapGenerator
 
 
 def main():
-    config:dict[str,str]
+    config: dict[str, str]
     if len(sys.argv) == 2:
         try:
             config = parser(sys.argv[1])
@@ -14,7 +14,7 @@ def main():
             generator = MapGenerator(map)
             generator.generate()
         except FileNotFoundError as e:
-            print(f"File not found: {e}") 
+            print(f"File not found: {e}")
         except PermissionError as e:
             print(f"Error opening file: {e}")
         except InvalidConfiguration as e:
@@ -22,10 +22,11 @@ def main():
         except EmptyFile as e:
             print(e)
     else:
-        print("El programa tiene que ejecutarse asi: python3 a_maze_ing.py <argumento>")
+        print("Error in arguments provided. Usage: python3 a_maze_ing.py <config.txt>")
+
 
 if __name__ == "__main__":
-    try: 
+    try:
         main()
     except Exception as e:
         print(f"Something unexpected happened: {e}. Contact developers")

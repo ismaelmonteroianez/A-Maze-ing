@@ -6,10 +6,8 @@ from cell import Cell
 class MapGenerator():
     map: Map
 
-
     def __init__(self, map: Map):
         self.map = map
-        
 
     def generate(self):
         stack = []
@@ -33,4 +31,3 @@ class MapGenerator():
                 stack.append(current_cell)
                 current_cell = next_cell
                 print(next_cell, direction)
-
