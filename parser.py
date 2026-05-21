@@ -19,8 +19,8 @@ def check_cord(value: str) -> None:
 
 
 def check_file(value: str) -> None:
-    with open(value, "w") as f:
-        f.write("Hola")
+    with open(value, "w"):
+        pass
 
 
 def check_bool(value: str):

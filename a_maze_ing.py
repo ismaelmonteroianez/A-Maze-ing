@@ -14,6 +14,7 @@ def main():
             map = Map(config)
             generator = MapGenerator(map)
             generator.generate()
+            generator.find_exit()
             visualizer(map)
         except FileNotFoundError as e:
             print(f"File not found: {e}")

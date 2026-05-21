@@ -1,4 +1,6 @@
 class Cell():
+    entry: bool
+    exit: bool
     x: int
     y: int
     north_wall: bool
@@ -6,8 +8,11 @@ class Cell():
     south_wall: bool
     west_wall: bool
     visited: bool
+    father: "Cell"
 
     def __init__(self, y: int, x: int):
+        self.entry = False
+        self.exit = False
         self.y = y
         self.x = x
         self.north_wall = True
@@ -15,6 +20,7 @@ class Cell():
         self.south_wall = True
         self.west_wall = True
         self.visited = False
+        self.father = None
 
     def open_wall(self, position: str) -> None:
         match position:

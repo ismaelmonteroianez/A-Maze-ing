@@ -20,7 +20,7 @@ class Map():
         self.entry_x = int(parametros[1])
         parametros = config["EXIT"].split(",")
         self.exit_y = int(parametros[0])
-        self.exit_y = int(parametros[1])
+        self.exit_x = int(parametros[1])
         self.output_file = config["OUTPUT_FILE"]
         if config["PERFECT"] == "True":
             self.perfect = True
@@ -35,6 +35,8 @@ class Map():
             for x in range(self.width):
                 new_list.append(Cell(y, x))
             self.table.append(new_list)
+        self.table[self.entry_y][self.entry_x].entry = True
+        self.table[self.exit_y][self.exit_x].exit = True
 
     def get_cell(self, x, y) -> Cell:
         return (self.table[y][x])
@@ -57,6 +59,19 @@ class Map():
             if cell.visited is False:
                 unvisited_neighbors.append((cell, direction))
         return (unvisited_neighbors)
+
+    def get_unwalled_neighbors(self, current_cell: Cell, neighbors: list[tuple[Cell, str]]) -> list[Cell]:
+        unwalled_neighbors = []
+        for cell, direction in neighbors:
+            if direction == "N" and current_cell.north_wall is False:
+                unwalled_neighbors.append(cell)
+            if direction == "E" and current_cell.east_wall is False:
+                unwalled_neighbors.append(cell)
+            if direction == "S" and current_cell.south_wall is False:
+                unwalled_neighbors.append(cell)
+            if direction == "W" and current_cell.west_wall is False:
+                unwalled_neighbors.append(cell)
+        return (unwalled_neighbors)
 
     def connect(self, a: Cell, b: Cell, direction: str):
         a.open_wall(direction)
