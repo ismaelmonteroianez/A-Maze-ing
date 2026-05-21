@@ -3,6 +3,7 @@ from errors import InvalidConfiguration, EmptyFile
 import sys
 from map import Map
 from map_generator import MapGenerator
+from visualizer import visualizer
 
 
 def main():
@@ -13,6 +14,7 @@ def main():
             map = Map(config)
             generator = MapGenerator(map)
             generator.generate()
+            visualizer(map)
         except FileNotFoundError as e:
             print(f"File not found: {e}")
         except PermissionError as e:
