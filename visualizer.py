@@ -32,7 +32,7 @@ def visualizer(map: Map) -> None:
             print("+", end="")
         print()
 
-def canvas(map: Map) -> None:
+def canvas(map: Map, show_path: bool) -> None:
     canvas_height = map.height * 2 + 1
     canvas_width = map.width * 2 + 1
     wall = "██"
@@ -49,26 +49,25 @@ def canvas(map: Map) -> None:
             cell = map.table[y][x]
             cy = y * 2 + 1
             cx = x * 2 + 1
-            if cell.visited:
-                if cell.entry:
-                    canvas[cy][cx] = entry
-                elif cell.exit:
-                    canvas[cy][cx] = exit
-                else:
-                    canvas[cy][cx] = path
+            if cell.entry:
+                canvas[cy][cx] = entry
+            elif cell.exit:
+                canvas[cy][cx] = exit
             elif cell.blocked:
                 canvas[cy][cx] = forty_two
+            elif cell.visited and show_path:
+                    canvas[cy][cx] = path
             else:
                 canvas[cy][cx] = empty
             if not cell.east_wall:
                 neighbor = map.table[y][x + 1]
-                if cell.visited and neighbor.visited:
+                if cell.visited and neighbor.visited and show_path:
                     canvas[cy][cx + 1] = path
                 else:    
                     canvas[cy][cx + 1] = empty
             if not cell.south_wall:
                 neighbor = map.table[y + 1][x]
-                if cell.visited and neighbor.visited:
+                if cell.visited and neighbor.visited and show_path:
                     canvas[cy + 1][cx] = path
                 else:
                     canvas[cy + 1][cx] = empty
@@ -77,6 +76,7 @@ def canvas(map: Map) -> None:
         print("".join(row))
 
 def menu(config: dict[str:str]):
+    show_path = True
     map = Map(config)
     generator = MapGenerator(map)
     generator.generate()
@@ -84,7 +84,7 @@ def menu(config: dict[str:str]):
     
     while True:
         print("\033[H\033[J", end="") #Limpia la pantalla para que cuando se genere un nuevo laberinto que no haya nada arriba en la terminal
-        canvas(map)
+        canvas(map, show_path)
         print("==== A-Maze-ing ====")
         print("1. Re-generate a new maze")
         print("2. Show/Hide path from entry to exit")
@@ -102,7 +102,7 @@ def menu(config: dict[str:str]):
             generator.find_exit()
 
         elif choice == "2":
-            print("Toggle path selected")
+            show_path = not show_path
 
         elif choice == "3":
             print("Change colours selected")

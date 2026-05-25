@@ -82,7 +82,7 @@ class Map():
             if direction == "W" and current_cell.west_wall is False:
                 unwalled_neighbors.append(cell)
         return (unwalled_neighbors)
-    
+
     def get_walled_neighbors(self, current_cell: Cell, neighbors: list[tuple[Cell, str]]) -> list[tuple[Cell, str]]:
         walled_neighbors = []
         for cell, direction in neighbors:
