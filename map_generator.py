@@ -1,0 +1,137 @@
+from map import Map
+import random
+from cell import Cell
+from errors import InvalidConfiguration
+
+
+class MapGenerator():
+    map: Map
+
+    def __init__(self, map: Map):
+        self.map = map
+
+    def block_42_cells(self):
+        centre_y = int((self.map.height) / 2)
+        centre_x = int((self.map.width) / 2)
+        blocked_cells: list[tuple[int, int]]
+        blocked_cells = [(-2, -3), (-1, -3), (0, -3), (0, -2), (0, -1), 
+                         (1, -1), (2, -1), (-2, 1), (-2, 2), (-2, 3), 
+                         (-1, 3), (0, 3), (0, 2), (0, 1), (1, 1), (2, 1), 
+                         (2, 2), (2, 3)]
+        for y, x in blocked_cells:
+            cell_y = centre_y + y
+            cell_x = centre_x + x
+            cell = self.map.table[cell_y][cell_x]
+            if cell.entry or cell.exit:
+                raise InvalidConfiguration("Entry or exit inside cells reserved for the 42")
+            cell.block()
+
+    def generate(self) -> None:
+        stack = []
+        self.map.gen_map()
+        if self.map.height < 9 or self.map.width < 11:
+            print("Maze too small to generate pattern 42. Generating map anyway:")
+        else:
+            self.block_42_cells()
+        entry_cell = self.map.table[self.map.entry_y][self.map.entry_x]
+        entry_cell.visit()
+        current_cell = entry_cell
+        while True:
+            neighbors = self.map.get_neighbors(current_cell)
+            neighbors = self.map.get_unvisited_neighbors(neighbors)
+            if len(neighbors) == 0:
+                if stack:
+                    current_cell = stack.pop()
+                else:
+                    break
+            else:
+                next_cell, direction = random.choice(neighbors)
+                self.map.connect(current_cell, next_cell, direction)
+                next_cell.visit()
+                stack.append(current_cell)
+                current_cell = next_cell
+        self.reset_visited()
+        if self.map.perfect is False:
+            self.not_perfect()
+
+    def not_perfect(self) -> None:
+        break_walls: int = 0
+        possible_walls: list[tuple[Cell, Cell, str]] = list()
+        size: int = self.map.height * self.map.width
+        if size < 10:
+            break_walls = 1
+        elif size < 100:
+            break_walls = 3
+        elif size < 300:
+            break_walls = int(size / 20)
+        else:
+            break_walls = int(size / 20)
+        for row in self.map.table:
+            for cell in row:
+                if cell.entry or cell.exit:
+                    continue
+                else:
+                    neighbors = self.map.get_neighbors(cell)
+                    neighbors = self.map.get_walled_neighbors(cell, neighbors)
+                    for neighbor, direction in neighbors:
+                        possible_walls.append((cell, neighbor, direction))
+        for _ in range(break_walls):
+            if possible_walls:
+                index = random.randint(0, len(possible_walls) - 1)
+                cell, neighbor, direction = possible_walls.pop(index)
+                self.map.connect(cell, neighbor, direction)
+
+    def reset_visited(self):
+        for row in self.map.table:
+            for cell in row:
+                cell.unvisit()
+
+    def output(self, direction_list: list[str]) -> None:
+        with open(self.map.output_file, "w") as f:
+            for row in self.map.table:
+                for cell in row:
+                    f.write(cell.get_hex())
+                f.write("\n")
+            f.write("\n")
+            f.write(f"{self.map.entry_y},{self.map.entry_x}\n")
+            f.write(f"{self.map.exit_y},{self.map.exit_x}\n")
+            for i in direction_list:
+                f.write(i)
+
+    def find_exit(self):
+        entry_cell = self.map.table[self.map.entry_y][self.map.entry_x]
+        exit_cell = self.map.table[self.map.exit_y][self.map.exit_x]
+        queue = [entry_cell]
+        entry_cell.visit()
+        while queue:
+            current_cell = queue.pop(0)
+            if current_cell is exit_cell:
+                break
+            neighbors = self.map.get_neighbors(current_cell)
+            neighbors = self.map.get_unwalled_neighbors(current_cell, neighbors)
+            for neighbor in neighbors:
+                if neighbor.visited is False:
+                    neighbor.visit()
+                    neighbor.father = current_cell
+                    queue.append(neighbor)
+        path_cell = exit_cell
+        shortest_path: list[Cell] = []
+        while path_cell is not entry_cell:
+            shortest_path.append(path_cell)
+            path_cell = path_cell.father
+        shortest_path.append(path_cell)
+        shortest_path.reverse()
+        direction_list: list[str] = []
+        for i in range(len(shortest_path) - 1):
+            if shortest_path[i].y + 1 == shortest_path[i + 1].y:
+                direction_list.append("S")
+            if shortest_path[i].y - 1 == shortest_path[i + 1].y:
+                direction_list.append("N")
+            if shortest_path[i].x + 1 == shortest_path[i + 1].x:
+                direction_list.append("E")
+            if shortest_path[i].x - 1 == shortest_path[i + 1].x:
+                direction_list.append("W")
+        self.reset_visited()
+        for cell in shortest_path:
+            cell.visit()
+        self.output(direction_list)
