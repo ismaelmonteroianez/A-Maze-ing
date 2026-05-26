@@ -75,7 +75,7 @@ def canvas(map: Map, show_path: bool) -> None:
     for row in canvas:
         print("".join(row))
 
-def menu(config: dict[str:str]):
+def menu(config: dict[str,str]):
     show_path = True
     map = Map(config)
     generator = MapGenerator(map)
