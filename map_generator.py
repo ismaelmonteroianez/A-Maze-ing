@@ -33,6 +33,8 @@ class MapGenerator():
             print("Maze too small to generate pattern 42. Generating map anyway:")
         else:
             self.block_42_cells()
+        if self.map.ind_seed:
+            random.seed(self.map.seed)
         entry_cell = self.map.table[self.map.entry_y][self.map.entry_x]
         entry_cell.visit()
         current_cell = entry_cell

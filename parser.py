@@ -53,6 +53,7 @@ def parser(argv: str) -> dict[str, str]:
                       "EXIT": "cord",
                       "OUTPUT_FILE": "file",
                       "PERFECT": "bool"}
+    optional_keys = {"SEED": "int"}
     config = {}
     with open(argv, "r") as f:
         file = f.read()
@@ -83,5 +84,19 @@ def parser(argv: str) -> dict[str, str]:
                 raise InvalidConfiguration(e)
         else:
             raise InvalidConfiguration(f"The following arguments are mandatory: {mandatory_keys.keys()}")
+    for key in optional_keys:
+        if key in config.keys():
+            try:
+                match optional_keys[key]:
+                    case "int":
+                        check_int(config[key])
+                    case "cord":
+                        check_cord(config[key])
+                    case "file":
+                        check_file(config[key])
+                    case "bool":
+                        check_bool(config[key])
+            except Exception as e:
+                raise InvalidConfiguration(e)
     check_invalid_cord(config)
     return config

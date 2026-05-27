@@ -10,6 +10,8 @@ class Map():
     exit_x: int
     output_file: str
     perfect: bool
+    seed:int
+    ind_seed:bool
     table: list[list[Cell]]
 
     def __init__(self, config: dict[str, str]):
@@ -26,6 +28,11 @@ class Map():
             self.perfect = True
         else:
             self.perfect = False
+        if "SEED" in config.keys():
+            self.ind_seed = True
+            self.seed = int(config["SEED"])
+        else:
+            self.ind_seed = False
         self.table = []
 
     def gen_map(self) -> None:
