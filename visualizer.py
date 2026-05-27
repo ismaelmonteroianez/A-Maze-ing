@@ -85,19 +85,20 @@ def menu(config: dict[str,str]):
     while True:
         print("\033[H\033[J", end="") #Limpia la pantalla para que cuando se genere un nuevo laberinto que no haya nada arriba en la terminal
         canvas(map, show_path)
+        if map.height < 9 or map.width < 11:
+            print("Maze too small to generate pattern 42. Generating map anyway:")
         print("==== A-Maze-ing ====")
         print("1. Re-generate a new maze")
         print("2. Show/Hide path from entry to exit")
         print("3. Rotate maze colors")
         print("4. Toggle 42 pattern colours")
-        print("5. Exit")
+        print("5. Tool seed")
+        print("6. Exit")
         print()
 
-        choice = input("Choice? (1-5): ")
+        choice = input("Choice? (1-6): ")
 
         if choice == "1":
-            map = Map(config)
-            generator = MapGenerator(map)
             generator.generate()
             generator.find_exit()
 
@@ -111,6 +112,17 @@ def menu(config: dict[str,str]):
             print("42 pattern selected")
 
         elif choice == "5":
+            if generator.map.ind_seed:
+                generator.map.ind_seed = False
+            else:
+                if generator.map.empty_seed:
+                    generator.map.seed = input("Seed not found. Insert Seed: ")
+                    generator.map.empty_seed = False
+                generator.map.ind_seed = True
+            generator.generate()
+            generator.find_exit()
+
+        elif choice == "6":
             break
 
         else:

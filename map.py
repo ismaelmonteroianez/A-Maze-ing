@@ -10,7 +10,8 @@ class Map():
     exit_x: int
     output_file: str
     perfect: bool
-    seed:int
+    seed:str
+    empty_seed:bool
     ind_seed:bool
     table: list[list[Cell]]
 
@@ -29,9 +30,11 @@ class Map():
         else:
             self.perfect = False
         if "SEED" in config.keys():
+            self.empty_seed = False
             self.ind_seed = True
-            self.seed = int(config["SEED"])
+            self.seed = config["SEED"]
         else:
+            self.empty_seed = True
             self.ind_seed = False
         self.table = []
 

@@ -44,7 +44,10 @@ def check_invalid_cord(config: dict[str, str]) -> None:
         raise InvalidConfiguration("Invalid coordinate")
     if (height <= height_entry or height <= height_exit):
         raise InvalidConfiguration("Invalid coordinate")
-
+    if width > 100:
+        raise InvalidConfiguration("Width must be less than 100")
+    if height > 100:
+        raise InvalidConfiguration("Height must be less than 100")
 
 def parser(argv: str) -> dict[str, str]:
     mandatory_keys = {"WIDTH": "int",
@@ -53,7 +56,7 @@ def parser(argv: str) -> dict[str, str]:
                       "EXIT": "cord",
                       "OUTPUT_FILE": "file",
                       "PERFECT": "bool"}
-    optional_keys = {"SEED": "int"}
+    optional_keys = {"SEED": "str"}
     config = {}
     with open(argv, "r") as f:
         file = f.read()

@@ -29,12 +29,12 @@ class MapGenerator():
     def generate(self) -> None:
         stack = []
         self.map.gen_map()
-        if self.map.height < 9 or self.map.width < 11:
-            print("Maze too small to generate pattern 42. Generating map anyway:")
-        else:
+        if self.map.height >= 9 and self.map.width >= 11:
             self.block_42_cells()
         if self.map.ind_seed:
             random.seed(self.map.seed)
+        else:
+            random.seed(None)
         entry_cell = self.map.table[self.map.entry_y][self.map.entry_x]
         entry_cell.visit()
         current_cell = entry_cell
