@@ -58,9 +58,20 @@ class MapGenerator():
             self.not_perfect()
 
     def not_perfect(self) -> None:
+        
         break_walls: int = 0
         possible_walls: list[tuple[Cell, Cell, str]] = list()
         size: int = self.map.height * self.map.width
+        entry_cell = self.map.table[self.map.entry_y][self.map.entry_x]
+        exit_cell = self.map.table[self.map.exit_y][self.map.exit_x]
+        neighbors_entry = self.map.get_neighbors(entry_cell)
+        for neighbor, direction in neighbors_entry:
+            if neighbor == exit_cell:
+                for neighbor, direction in neighbors_entry:
+                    self.map.connect(entry_cell, neighbor, direction)
+                neighbors_exit = self.map.get_neighbors(exit_cell)
+                for neighbor, direction in neighbors_exit:
+                    self.map.connect(exit_cell, neighbor, direction)
         if size < 10:
             break_walls = 1
         elif size < 100:
