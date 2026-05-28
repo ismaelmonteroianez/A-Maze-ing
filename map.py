@@ -25,7 +25,7 @@ class Map():
         self.exit_y = int(parametros[0])
         self.exit_x = int(parametros[1])
         self.output_file = config["OUTPUT_FILE"]
-        if config["PERFECT"] == "True":
+        if config["PERFECT"] == "TRUE":
             self.perfect = True
         else:
             self.perfect = False

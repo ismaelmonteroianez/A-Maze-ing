@@ -54,6 +54,7 @@ class MapGenerator():
                 current_cell = next_cell
         self.reset_visited()
         if self.map.perfect is False:
+            print("no perfect")
             self.not_perfect()
 
     def not_perfect(self) -> None:

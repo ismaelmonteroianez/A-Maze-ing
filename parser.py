@@ -24,7 +24,7 @@ def check_file(value: str) -> None:
 
 
 def check_bool(value: str):
-    if not (value == "True" or value == "False"):
+    if not (value == "TRUE" or value == "FALSE"):
         raise InvalidConfiguration(f"{value} must be True or False only")
 
 
@@ -62,6 +62,7 @@ def parser(argv: str) -> dict[str, str]:
         file = f.read()
     if file.strip() == "":
         raise EmptyFile("Error: empty file")
+    file = file.upper()
     lines = file.split("\n")
     for line in lines:
         parameter = line.split("=")
