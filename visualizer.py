@@ -1,5 +1,7 @@
 from map import Map
 from map_generator import MapGenerator
+from color_themes import ColorThemes
+import os
 
 
 def visualizer(map: Map) -> None:
@@ -32,15 +34,15 @@ def visualizer(map: Map) -> None:
             print("+", end="")
         print()
 
-def canvas(map: Map, show_path: bool) -> None:
+def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
     canvas_height = map.height * 2 + 1
     canvas_width = map.width * 2 + 1
-    wall = "██"
-    empty = "  "
-    path = "\033[90m██\033[0m"
-    entry = "\033[92m██\033[0m"
-    exit = "\033[91m██\033[0m"
-    forty_two = "\033[95m██\033[0m"
+    wall = theme["wall"]
+    empty = theme["empty"]
+    path = theme["path"]
+    entry = theme["entry"]
+    exit = theme["exit"]
+    forty_two = theme["forty_two"]
     canvas = []
     for _ in range(canvas_height):
         canvas.append([wall] * canvas_width)
@@ -77,22 +79,23 @@ def canvas(map: Map, show_path: bool) -> None:
 
 def menu(config: dict[str,str]):
     show_path = True
+    color_themes = ColorThemes()
     map = Map(config)
     generator = MapGenerator(map)
     generator.generate()
     generator.find_exit()
-    
+
     while True:
-        print("\033[H\033[J", end="") #Limpia la pantalla para que cuando se genere un nuevo laberinto que no haya nada arriba en la terminal
-        canvas(map, show_path)
+        os.system("clear")
+        canvas(map, show_path, color_themes.current())
         if map.height < 9 or map.width < 11:
             print("Maze too small to generate pattern 42. Generating map anyway:")
         print("==== A-Maze-ing ====")
         print("1. Re-generate a new maze")
         print("2. Show/Hide path from entry to exit")
-        print("3. Rotate maze colors")
+        print("3. Rotate maze colours")
         print("4. Toggle 42 pattern colours")
-        print("5. Tool seed")
+        print("5. Toggle seed")
         print("6. Exit")
         print()
 
@@ -106,10 +109,10 @@ def menu(config: dict[str,str]):
             show_path = not show_path
 
         elif choice == "3":
-            print("Change colours selected")
+            color_themes.next_theme()
 
         elif choice == "4":
-            print("42 pattern selected")
+            color_themes.next_42_theme()
 
         elif choice == "5":
             if generator.map.ind_seed:
@@ -123,6 +126,7 @@ def menu(config: dict[str,str]):
             generator.find_exit()
 
         elif choice == "6":
+            os.system("clear")
             break
 
         else:
