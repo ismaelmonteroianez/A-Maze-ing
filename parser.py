@@ -23,8 +23,8 @@ def check_file(value: str) -> None:
         pass
 
 
-def check_bool(value: str):
-    if not (value == "TRUE" or value == "FALSE"):
+def check_bool(value: str) -> None:
+    if not (value.upper() == "TRUE" or value.upper() == "FALSE"):
         raise InvalidConfiguration(f"{value} must be True or False only")
 
 
@@ -58,12 +58,11 @@ def parser(argv: str) -> dict[str, str]:
                       "OUTPUT_FILE": "file",
                       "PERFECT": "bool"}
     optional_keys = {"SEED": "str"}
-    config = {}
+    config: dict[str, str] = {}
     with open(argv, "r") as f:
         file = f.read()
     if file.strip() == "":
         raise EmptyFile("Error: empty file")
-    file = file.upper()
     lines = file.split("\n")
     for line in lines:
         parameter = line.split("=")
@@ -87,6 +86,7 @@ def parser(argv: str) -> dict[str, str]:
                         check_file(config[key])
                     case "bool":
                         check_bool(config[key])
+                        config[key] = (config[key]).upper()
             except Exception as e:
                 raise InvalidConfiguration(e)
         else:

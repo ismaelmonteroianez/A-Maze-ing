@@ -4,7 +4,7 @@ import sys
 from visualizer import menu
 
 
-def main():
+def main() -> None:
     config: dict[str, str]
     if len(sys.argv) == 2:
         try:

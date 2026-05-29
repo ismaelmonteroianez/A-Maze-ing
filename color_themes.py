@@ -1,6 +1,6 @@
 class ColorThemes:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
 
         self.themes = [
@@ -165,17 +165,17 @@ class ColorThemes:
     def color(self, text: str, code: int) -> str:
         return f"\033[{code}m{text}\033[0m"
 
-    def current(self) -> dict:
+    def current(self) -> dict[str, str]:
         theme = self.themes[self.index].copy()
         theme["forty_two"] = (self.forty_two_colors[self.forty_two_index])
         return theme
 
-    def next_theme(self):
+    def next_theme(self) -> None:
         self.index += 1
         if self.index >= len(self.themes):
             self.index = 0
 
-    def next_42_theme(self):
+    def next_42_theme(self) -> None:
         self.forty_two_index += 1
         if self.forty_two_index >= len(self.forty_two_colors):
             self.forty_two_index = 0

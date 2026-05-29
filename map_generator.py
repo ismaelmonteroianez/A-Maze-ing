@@ -10,7 +10,7 @@ class MapGenerator():
     def __init__(self, map: Map):
         self.map = map
 
-    def block_42_cells(self):
+    def block_42_cells(self) -> None:
         centre_y = int((self.map.height) / 2)
         centre_x = int((self.map.width) / 2)
         blocked_cells: list[tuple[int, int]]
@@ -28,7 +28,7 @@ class MapGenerator():
             cell.block()
 
     def generate(self) -> None:
-        stack = []
+        stack: list[Cell] = []
         self.map.gen_map()
         if self.map.height >= 9 and self.map.width >= 11:
             self.block_42_cells()
@@ -95,7 +95,7 @@ class MapGenerator():
                 cell, neighbor, direction = possible_walls.pop(index)
                 self.map.connect(cell, neighbor, direction)
 
-    def reset_visited(self):
+    def reset_visited(self) -> None:
         for row in self.map.table:
             for cell in row:
                 cell.unvisit()
@@ -112,7 +112,7 @@ class MapGenerator():
             for i in direction_list:
                 f.write(i)
 
-    def find_exit(self):
+    def find_exit(self) -> None:
         entry_cell = self.map.table[self.map.entry_y][self.map.entry_x]
         exit_cell = self.map.table[self.map.exit_y][self.map.exit_x]
         queue = [entry_cell]
@@ -122,9 +122,9 @@ class MapGenerator():
             if current_cell is exit_cell:
                 break
             neighbors = self.map.get_neighbors(current_cell)
-            neighbors = self.map.get_unwalled_neighbors(current_cell,
+            unwalled_neighbors = self.map.get_unwalled_neighbors(current_cell,
                                                         neighbors)
-            for neighbor in neighbors:
+            for neighbor in unwalled_neighbors:
                 if neighbor.visited is False:
                     neighbor.visit()
                     neighbor.father = current_cell

@@ -48,8 +48,6 @@ class Map():
         self.table[self.entry_y][self.entry_x].entry = True
         self.table[self.exit_y][self.exit_x].exit = True
 
-    def get_cell(self, x, y) -> Cell:
-        return (self.table[y][x])
 
     def get_neighbors(self, cell: Cell) -> list[tuple[Cell, str]]:
         neighbors = []
@@ -107,7 +105,7 @@ class Map():
                 walled_neighbors.append((cell, "S"))
         return walled_neighbors
 
-    def connect(self, a: Cell, b: Cell, direction: str):
+    def connect(self, a: Cell, b: Cell, direction: str) -> None:
         a.open_wall(direction)
         match direction:
             case "N":
@@ -119,7 +117,7 @@ class Map():
             case "W":
                 b.open_wall("E")
 
-    def print_map(self):
+    def print_map(self) -> None:
         for y in range(self.height):
             for x in range(self.width):
                 print(self.table[y][x], end="")

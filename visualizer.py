@@ -79,7 +79,7 @@ def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
         print("".join(row))
 
 
-def menu(config: dict[str, str]):
+def menu(config: dict[str, str]) -> None:
     show_path = True
     color_themes = ColorThemes()
     map = Map(config)
