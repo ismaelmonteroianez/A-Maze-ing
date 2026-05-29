@@ -1,15 +1,14 @@
-from map import Map
-from map_generator import MapGenerator
+from mazegen import MapGenerator
 from color_themes import ColorThemes
 import os
 
 
-def visualizer(map: Map) -> None:
-    for cell in map.table[0]:
+def visualizer(generator: MapGenerator) -> None:
+    for cell in generator.map.table[0]:
         print("+", end="")
         print("---", end="")
     print("+")
-    for row in map.table:
+    for row in generator.map.table:
         print("|", end="")
         for cell in row:
             if cell.entry:
@@ -35,9 +34,9 @@ def visualizer(map: Map) -> None:
         print()
 
 
-def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
-    canvas_height = map.height * 2 + 1
-    canvas_width = map.width * 2 + 1
+def canvas(generator: MapGenerator, show_path: bool, theme: dict[str, str]) -> None:
+    canvas_height = generator.map.height * 2 + 1
+    canvas_width = generator.map.width * 2 + 1
     wall = theme["wall"]
     empty = theme["empty"]
     path = theme["path"]
@@ -47,9 +46,9 @@ def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
     canvas = []
     for _ in range(canvas_height):
         canvas.append([wall] * canvas_width)
-    for y in range(map.height):
-        for x in range(map.width):
-            cell = map.table[y][x]
+    for y in range(generator.map.height):
+        for x in range(generator.map.width):
+            cell = generator.map.table[y][x]
             cy = y * 2 + 1
             cx = x * 2 + 1
             if cell.entry:
@@ -63,13 +62,13 @@ def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
             else:
                 canvas[cy][cx] = empty
             if not cell.east_wall:
-                neighbor = map.table[y][x + 1]
+                neighbor = generator.map.table[y][x + 1]
                 if cell.visited and neighbor.visited and show_path:
                     canvas[cy][cx + 1] = path
                 else:
                     canvas[cy][cx + 1] = empty
             if not cell.south_wall:
-                neighbor = map.table[y + 1][x]
+                neighbor = generator.map.table[y + 1][x]
                 if cell.visited and neighbor.visited and show_path:
                     canvas[cy + 1][cx] = path
                 else:
@@ -82,15 +81,14 @@ def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
 def menu(config: dict[str, str]) -> None:
     show_path = True
     color_themes = ColorThemes()
-    map = Map(config)
-    generator = MapGenerator(map)
+    generator = MapGenerator(config)
     generator.generate()
     generator.find_exit()
 
     while True:
         os.system("clear")
-        canvas(map, show_path, color_themes.current())
-        if map.height < 9 or map.width < 11:
+        canvas(generator, show_path, color_themes.current())
+        if generator.map.height < 9 or generator.map.width < 11:
             print("Maze too small to generate "
                   "pattern 42. Generating map anyway:")
         print("==== A-Maze-ing ====")

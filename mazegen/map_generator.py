@@ -1,14 +1,17 @@
-from map import Map
+from mazegen.map import Map
 import random
-from cell import Cell
-from errors import InvalidConfiguration
+from mazegen.cell import Cell
+
+
+class InvalidConfiguration(Exception):
+    pass
 
 
 class MapGenerator():
     map: Map
 
-    def __init__(self, map: Map):
-        self.map = map
+    def __init__(self, config: dict[str, str]):
+        self.map = Map(config)
 
     def block_42_cells(self) -> None:
         centre_y = int((self.map.height) / 2)
