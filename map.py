@@ -10,9 +10,9 @@ class Map():
     exit_x: int
     output_file: str
     perfect: bool
-    seed:str
-    empty_seed:bool
-    ind_seed:bool
+    seed: str
+    empty_seed: bool
+    ind_seed: bool
     table: list[list[Cell]]
 
     def __init__(self, config: dict[str, str]):
@@ -73,14 +73,17 @@ class Map():
                     neighbors.append((neighbor, "W"))
         return neighbors
 
-    def get_unvisited_neighbors(self, neighbors: list[tuple[Cell, str]]) -> list[tuple[Cell, str]]:
+    def get_unvisited_neighbors(self, neighbors: list[tuple[Cell, str]]
+                                ) -> list[tuple[Cell, str]]:
         unvisited_neighbors = []
         for cell, direction in neighbors:
             if cell.visited is False:
                 unvisited_neighbors.append((cell, direction))
         return (unvisited_neighbors)
 
-    def get_unwalled_neighbors(self, current_cell: Cell, neighbors: list[tuple[Cell, str]]) -> list[Cell]:
+    def get_unwalled_neighbors(self, current_cell: Cell,
+                               neighbors: list[tuple[Cell, str]]
+                               ) -> list[Cell]:
         unwalled_neighbors = []
         for cell, direction in neighbors:
             if direction == "N" and current_cell.north_wall is False:
@@ -93,7 +96,9 @@ class Map():
                 unwalled_neighbors.append(cell)
         return (unwalled_neighbors)
 
-    def get_walled_neighbors(self, current_cell: Cell, neighbors: list[tuple[Cell, str]]) -> list[tuple[Cell, str]]:
+    def get_walled_neighbors(self, current_cell: Cell,
+                             neighbors: list[tuple[Cell, str]]
+                             ) -> list[tuple[Cell, str]]:
         walled_neighbors = []
         for cell, direction in neighbors:
             if direction == "E" and current_cell.east_wall:

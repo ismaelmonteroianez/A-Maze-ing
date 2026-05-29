@@ -49,6 +49,7 @@ def check_invalid_cord(config: dict[str, str]) -> None:
     if height > 100:
         raise InvalidConfiguration("Height must be less than 100")
 
+
 def parser(argv: str) -> dict[str, str]:
     mandatory_keys = {"WIDTH": "int",
                       "HEIGHT": "int",
@@ -68,10 +69,12 @@ def parser(argv: str) -> dict[str, str]:
         parameter = line.split("=")
         if len(parameter) == 2:
             if parameter[0] in config:
-                raise InvalidConfiguration(f"repeated key in parameter {parameter[0]}")
+                raise InvalidConfiguration("repeated key "
+                                           f"in parameter {parameter[0]}")
             config[parameter[0].upper()] = parameter[1]
         else:
-            raise InvalidConfiguration(f"number of parameters must be 2, you had {len(parameter)}")
+            raise InvalidConfiguration("number of parameters "
+                                       f"must be 2, you had {len(parameter)}")
     for key in mandatory_keys:
         if key in config.keys():
             try:
@@ -87,7 +90,8 @@ def parser(argv: str) -> dict[str, str]:
             except Exception as e:
                 raise InvalidConfiguration(e)
         else:
-            raise InvalidConfiguration(f"The following arguments are mandatory: {mandatory_keys.keys()}")
+            raise InvalidConfiguration("The following arguments are "
+                                       f"mandatory: {mandatory_keys.keys()}")
     for key in optional_keys:
         if key in config.keys():
             try:

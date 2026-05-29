@@ -1,9 +1,7 @@
 from parser import parser
 from errors import InvalidConfiguration, EmptyFile
 import sys
-from map import Map
-from map_generator import MapGenerator
-from visualizer import visualizer, canvas, menu
+from visualizer import menu
 
 
 def main():
@@ -21,7 +19,8 @@ def main():
         except EmptyFile as e:
             print(e)
     else:
-        print("Error in arguments provided. Usage: python3 a_maze_ing.py <config.txt>")
+        print("Error in arguments provided."
+              " Usage: python3 a_maze_ing.py <config.txt>")
 
 
 if __name__ == "__main__":

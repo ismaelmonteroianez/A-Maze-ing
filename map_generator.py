@@ -14,16 +14,17 @@ class MapGenerator():
         centre_y = int((self.map.height) / 2)
         centre_x = int((self.map.width) / 2)
         blocked_cells: list[tuple[int, int]]
-        blocked_cells = [(-2, -3), (-1, -3), (0, -3), (0, -2), (0, -1), 
-                         (1, -1), (2, -1), (-2, 1), (-2, 2), (-2, 3), 
-                         (-1, 3), (0, 3), (0, 2), (0, 1), (1, 1), (2, 1), 
+        blocked_cells = [(-2, -3), (-1, -3), (0, -3), (0, -2), (0, -1),
+                         (1, -1), (2, -1), (-2, 1), (-2, 2), (-2, 3),
+                         (-1, 3), (0, 3), (0, 2), (0, 1), (1, 1), (2, 1),
                          (2, 2), (2, 3)]
         for y, x in blocked_cells:
             cell_y = centre_y + y
             cell_x = centre_x + x
             cell = self.map.table[cell_y][cell_x]
             if cell.entry or cell.exit:
-                raise InvalidConfiguration("Entry or exit inside cells reserved for the 42")
+                raise InvalidConfiguration("Entry or exit inside "
+                                           "cells reserved for the 42")
             cell.block()
 
     def generate(self) -> None:
@@ -54,11 +55,10 @@ class MapGenerator():
                 current_cell = next_cell
         self.reset_visited()
         if self.map.perfect is False:
-            print("no perfect")
             self.not_perfect()
 
     def not_perfect(self) -> None:
-        
+
         break_walls: int = 0
         possible_walls: list[tuple[Cell, Cell, str]] = list()
         size: int = self.map.height * self.map.width
@@ -122,7 +122,8 @@ class MapGenerator():
             if current_cell is exit_cell:
                 break
             neighbors = self.map.get_neighbors(current_cell)
-            neighbors = self.map.get_unwalled_neighbors(current_cell, neighbors)
+            neighbors = self.map.get_unwalled_neighbors(current_cell,
+                                                        neighbors)
             for neighbor in neighbors:
                 if neighbor.visited is False:
                     neighbor.visit()

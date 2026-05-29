@@ -34,6 +34,7 @@ def visualizer(map: Map) -> None:
             print("+", end="")
         print()
 
+
 def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
     canvas_height = map.height * 2 + 1
     canvas_width = map.width * 2 + 1
@@ -58,14 +59,14 @@ def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
             elif cell.blocked:
                 canvas[cy][cx] = forty_two
             elif cell.visited and show_path:
-                    canvas[cy][cx] = path
+                canvas[cy][cx] = path
             else:
                 canvas[cy][cx] = empty
             if not cell.east_wall:
                 neighbor = map.table[y][x + 1]
                 if cell.visited and neighbor.visited and show_path:
                     canvas[cy][cx + 1] = path
-                else:    
+                else:
                     canvas[cy][cx + 1] = empty
             if not cell.south_wall:
                 neighbor = map.table[y + 1][x]
@@ -73,11 +74,12 @@ def canvas(map: Map, show_path: bool, theme: dict[str, str]) -> None:
                     canvas[cy + 1][cx] = path
                 else:
                     canvas[cy + 1][cx] = empty
-            
+
     for row in canvas:
         print("".join(row))
 
-def menu(config: dict[str,str]):
+
+def menu(config: dict[str, str]):
     show_path = True
     color_themes = ColorThemes()
     map = Map(config)
@@ -89,7 +91,8 @@ def menu(config: dict[str,str]):
         os.system("clear")
         canvas(map, show_path, color_themes.current())
         if map.height < 9 or map.width < 11:
-            print("Maze too small to generate pattern 42. Generating map anyway:")
+            print("Maze too small to generate "
+                  "pattern 42. Generating map anyway:")
         print("==== A-Maze-ing ====")
         print("1. Re-generate a new maze")
         print("2. Show/Hide path from entry to exit")

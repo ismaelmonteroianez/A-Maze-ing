@@ -62,12 +62,12 @@ class Cell():
                 return self.west_wall
             case _:
                 raise Exception(f"This direction doesnt exist: {position}")
-            
+
     def get_hex(self) -> str:
         result = 0
-        hex_value = ("0", "1", "2", "3", "4", 
-               "5", "6", "7", "8", "9", 
-               "A", "B", "C", "D", "E", "F")
+        hex_value = ("0", "1", "2", "3", "4",
+                     "5", "6", "7", "8", "9",
+                     "A", "B", "C", "D", "E", "F")
         if self.north_wall:
             result += 1
         if self.east_wall:
@@ -86,6 +86,6 @@ class Cell():
 
     def __repr__(self) -> str:
         return f"({self.y},{self.x})"
-    
+
     def block(self) -> None:
         self.blocked = True
