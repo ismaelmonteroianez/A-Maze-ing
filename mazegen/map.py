@@ -48,7 +48,6 @@ class Map():
         self.table[self.entry_y][self.entry_x].entry = True
         self.table[self.exit_y][self.exit_x].exit = True
 
-
     def get_neighbors(self, cell: Cell) -> list[tuple[Cell, str]]:
         neighbors = []
         neighbor: Cell

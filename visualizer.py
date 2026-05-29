@@ -34,7 +34,8 @@ def visualizer(generator: MapGenerator) -> None:
         print()
 
 
-def canvas(generator: MapGenerator, show_path: bool, theme: dict[str, str]) -> None:
+def canvas(generator: MapGenerator, show_path: bool,
+           theme: dict[str, str]) -> None:
     canvas_height = generator.map.height * 2 + 1
     canvas_width = generator.map.width * 2 + 1
     wall = theme["wall"]

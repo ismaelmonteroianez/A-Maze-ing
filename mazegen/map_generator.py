@@ -126,7 +126,7 @@ class MapGenerator():
                 break
             neighbors = self.map.get_neighbors(current_cell)
             unwalled_neighbors = self.map.get_unwalled_neighbors(current_cell,
-                                                        neighbors)
+                                                                 neighbors)
             for neighbor in unwalled_neighbors:
                 if neighbor.visited is False:
                     neighbor.visit()
