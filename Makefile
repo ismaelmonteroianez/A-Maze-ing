@@ -1,4 +1,4 @@
-.PHONY: all install run debug clean fclean re lint lint-strict
+.PHONY: all install run debug build clean fclean re lint lint-strict
 
 CONFIG=config.txt
 
@@ -6,7 +6,7 @@ all:
 	@echo "Available targets: install run debug lint clean"
 
 install:
-	python3 -m pip install . flake8 mypy
+	python3 -m pip install flake8 mypy build
 
 run:
 	python3 a_maze_ing.py $(CONFIG)
@@ -14,17 +14,20 @@ run:
 debug:
 	python3 -m pdb a_maze_ing.py $(CONFIG)
 
+build:
+	python3 -m build
+
 lint:
-	flake8 .
-	mypy . --warn-return-any \
+	python3 -m flake8 .
+	python3 -m mypy . --warn-return-any \
 	--warn-unused-ignores \
 	--ignore-missing-imports \
 	--disallow-untyped-defs \
 	--check-untyped-defs
 
 lint-strict:
-	flake8 .
-	mypy . --strict
+	python3 -m flake8 .
+	python3 -m mypy . --strict
 
 clean:
 	rm -rf __pycache__/

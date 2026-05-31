@@ -1,34 +1,96 @@
 from errors import InvalidConfiguration, EmptyFile
+"""
+Parse and validate maze configuration files.
+
+This module reads configuration files, validates required and
+optional parameters, and returns a dictionary containing the
+parsed configuration values.
+"""
 
 
 def check_int(value: str) -> None:
+    """
+    Validate that a value is a positive integer.
+    Args:
+        value (str): Value to validate.
+    Returns:
+        None
+    Raises:
+        InvalidConfiguration: If the value is not positive.
+        ValueError: If the value cannot be converted to an integer.
+    """
     num = int(value)
     if num <= 0:
         raise InvalidConfiguration("Value must be positive")
 
 
 def check_cord(value: str) -> None:
+    """
+    Validate a coordinate pair.
+    Coordinates must be provided in the format "y,x" and both
+    values must be non-negative integers.
+    Args:
+        value (str): Coordinate string to validate.
+    Returns:
+        None
+    Raises:
+        InvalidConfiguration: If the coordinate format or values
+            are invalid.
+        ValueError: If coordinates cannot be converted to integers.
+    """
     cordenadas = value.split(",")
     if len(cordenadas) == 2:
         for cordenada in cordenadas:
             num = int(cordenada)
             if num < 0:
-                raise InvalidConfiguration("Value must be positiveo")
+                raise InvalidConfiguration("Value must be positive")
     else:
         raise InvalidConfiguration("Invalid coordinate")
 
 
 def check_file(value: str) -> None:
+    """
+    Validate that an output file can be created or written.
+    Args:
+        value (str): Output file path.
+    Returns:
+        None
+    Raises:
+        OSError: If the file cannot be opened for writing.
+    """
     with open(value, "w"):
         pass
 
 
 def check_bool(value: str) -> None:
+    """
+    Validate a boolean configuration value.
+    Accepted values are "TRUE" and "FALSE", regardless of case.
+    Args:
+        value (str): Value to validate.
+    Returns:
+        None
+    Raises:
+        InvalidConfiguration: If the value is not a valid boolean.
+    """
     if not (value.upper() == "TRUE" or value.upper() == "FALSE"):
         raise InvalidConfiguration(f"{value} must be True or False only")
 
 
 def check_invalid_cord(config: dict[str, str]) -> None:
+    """
+    Validate maze dimensions and entry/exit coordinates.
+    Ensures that coordinates are inside maze bounds, that entry
+    and exit positions are different, and that maze dimensions
+    respect the configured limits.
+    Args:
+        config (dict[str, str]): Parsed configuration values.
+    Returns:
+        None
+    Raises:
+        InvalidConfiguration: If dimensions or coordinates are
+            invalid.
+    """
     width: int = int(config["WIDTH"])
     height: int = int(config["HEIGHT"])
     entry: list[str] = config["ENTRY"].split(",")
@@ -51,6 +113,21 @@ def check_invalid_cord(config: dict[str, str]) -> None:
 
 
 def parser(argv: str) -> dict[str, str]:
+    """
+    Parse and validate a maze configuration file.
+    Reads the configuration file, validates all required and
+    optional parameters, and returns the resulting configuration
+    dictionary.
+    Args:
+        argv (str): Path to the configuration file.
+    Returns:
+        dict[str, str]: Validated configuration values.
+    Raises:
+        FileNotFoundError: If the configuration file does not exist.
+        EmptyFile: If the configuration file is empty.
+        InvalidConfiguration: If any configuration parameter is
+            missing or invalid.
+    """
     mandatory_keys = {"WIDTH": "int",
                       "HEIGHT": "int",
                       "ENTRY": "cord",

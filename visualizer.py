@@ -1,9 +1,30 @@
 from mazegen import MapGenerator
 from color_themes import ColorThemes
 import os
+"""
+Maze visualization and interactive menu system.
+
+This module provides two rendering systems for the maze:
+- A legacy ASCII visualizer used for debugging
+- A canvas-based terminal renderer with color themes
+
+It also implements the interactive menu that allows the user
+to regenerate mazes, toggle path display, switch color themes,
+and modify generation parameters.
+"""
 
 
 def visualizer(generator: MapGenerator) -> None:
+    """
+    Render the maze using a basic ASCII debug representation.
+    This function is a legacy visualization tool used for debugging
+    the maze structure. It displays walls, entry/exit points, and
+    visited cells using simple ASCII characters.
+    Args:
+        generator (MapGenerator): Maze generator containing the map.
+    Returns:
+        None
+    """
     for cell in generator.map.table[0]:
         print("+", end="")
         print("---", end="")
@@ -36,6 +57,17 @@ def visualizer(generator: MapGenerator) -> None:
 
 def canvas(generator: MapGenerator, show_path: bool,
            theme: dict[str, str]) -> None:
+    """
+    Render the maze using a colored terminal canvas.
+    Builds a 2D character buffer representing the maze and applies
+    color themes for walls, paths, entry, exit, and the "42" pattern.
+    Args:
+        generator (MapGenerator): Maze generator containing the map.
+        show_path (bool): Whether to display the solution path.
+        theme (dict[str, str]): Color theme used for rendering.
+    Returns:
+        None
+    """
     canvas_height = generator.map.height * 2 + 1
     canvas_width = generator.map.width * 2 + 1
     wall = theme["wall"]
@@ -80,6 +112,22 @@ def canvas(generator: MapGenerator, show_path: bool,
 
 
 def menu(config: dict[str, str]) -> None:
+    """
+    Run the interactive maze visualization menu.
+    Initializes the maze generator, builds a maze, computes the
+    solution path, and enters an interactive loop that allows the
+    user to:
+    - Regenerate the maze
+    - Toggle path visibility
+    - Change color themes
+    - Toggle "42" color variations
+    - Switch seed mode
+    - Exit the program
+    Args:
+        config (dict[str, str]): Parsed configuration dictionary.
+    Returns:
+        None
+    """
     show_path = True
     color_themes = ColorThemes()
     generator = MapGenerator(config)

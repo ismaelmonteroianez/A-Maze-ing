@@ -5,6 +5,16 @@ from visualizer import menu
 
 
 def main() -> None:
+    """
+    Parse the configuration file and start the maze application.
+
+    Validates the command-line arguments, loads the configuration file,
+    and launches the interactive menu. Handles expected configuration
+    and file-related errors by displaying a user-friendly message.
+
+    Returns:
+        None
+    """
     config: dict[str, str]
     if len(sys.argv) == 2:
         try:

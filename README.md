@@ -308,12 +308,6 @@ generator.find_exit()
 
 # Installation
 
-## Packaging
-
-TODO
-
-## Pip Installation
-
 TODO
 
 ---

@@ -1,6 +1,27 @@
-class ColorThemes:
+"""
+Color theme system for maze visualization.
 
+This module defines multiple ANSI color themes used to render
+the maze in the terminal, including special coloring for walls,
+paths, entry/exit points, and the "42" pattern.
+"""
+
+
+class ColorThemes:
+    """
+    Manage multiple ANSI color themes for maze rendering.
+    This class stores a collection of visual themes used to display
+    the maze in the terminal. It supports cycling through themes
+    and provides a special color rotation for the "42" pattern.
+    """
     def __init__(self) -> None:
+        """
+        Initialize the color theme manager.
+        Loads predefined color themes and initializes indices used
+        for cycling through visual styles.
+        Returns:
+            None
+        """
         self.index = 0
 
         self.themes = [
@@ -163,19 +184,49 @@ class ColorThemes:
         self.forty_two_index = 0
 
     def color(self, text: str, code: int) -> str:
+        """
+        Apply ANSI color formatting to a text string.
+        Args:
+            text (str): Text to be colored.
+            code (int): ANSI color code.
+        Returns:
+            str: Colored text string with ANSI escape sequences.
+        """
         return f"\033[{code}m{text}\033[0m"
 
     def current(self) -> dict[str, str]:
+        """
+        Get the current active color theme.
+        Returns a copy of the active theme, with the "42" color
+        dynamically selected from its rotation palette.
+        Returns:
+            dict[str, str]: Dictionary containing color mappings
+                for wall, empty space, path, entry, exit, and
+                "forty_two".
+        """
         theme = self.themes[self.index].copy()
         theme["forty_two"] = (self.forty_two_colors[self.forty_two_index])
         return theme
 
     def next_theme(self) -> None:
+        """
+        Switch to the next available color theme.
+        Cycles through predefined themes in a circular manner.
+        Returns:
+            None
+        """
         self.index += 1
         if self.index >= len(self.themes):
             self.index = 0
 
     def next_42_theme(self) -> None:
+        """
+        Cycle to the next color used for the "42" pattern.
+        This affects only the special coloring used to render the
+        blocked cells forming the "42" shape.
+        Returns:
+            None
+        """
         self.forty_two_index += 1
         if self.forty_two_index >= len(self.forty_two_colors):
             self.forty_two_index = 0
