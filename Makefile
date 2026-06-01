@@ -39,6 +39,6 @@ clean:
 	rm -rf *.egg-info
 
 fclean: clean
-	rm -f maze.txt
+	rm -f $$(grep -i '^OUTPUT_FILE=' $(CONFIG) | cut -d '=' -f 2)
 
 re: fclean run
