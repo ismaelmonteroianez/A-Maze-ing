@@ -1,3 +1,4 @@
+#config
 HEIGHT=13
 WIDTH=13
 ENTRY=0,0
