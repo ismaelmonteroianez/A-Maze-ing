@@ -1,5 +1,5 @@
 from parser import parser
-from errors import InvalidConfiguration, EmptyFile
+from mazegen.errors import InvalidConfiguration, EmptyFile
 import sys
 from visualizer import menu
 

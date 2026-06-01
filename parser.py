@@ -1,4 +1,4 @@
-from errors import InvalidConfiguration, EmptyFile
+from mazegen.errors import InvalidConfiguration, EmptyFile
 """
 Parse and validate maze configuration files.
 
