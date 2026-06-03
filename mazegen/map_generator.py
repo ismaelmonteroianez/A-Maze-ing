@@ -33,8 +33,28 @@ class MapGenerator():
         Creates an internal Map instance using the provided configuration.
         Args:
             config (dict[str, str]): Parsed configuration dictionary.
+                - WIDTH: maze width
+                - HEIGHT: maze height
+                - ENTRY: entry coordinates (y,x)
+                - EXIT: exit coordinates (y,x)
+                - OUTPUT_FILE: output file name
+                - PERFECT: True/False
+                - SEED: optional seed for reproducibility
         Returns:
             None
+        Example of use:
+            config = {
+            "WIDTH": "20",
+            "HEIGHT": "20",
+            "ENTRY": "0,0",
+            "EXIT": "19,19",
+            "OUTPUT_FILE": "maze.txt",
+            "PERFECT": "TRUE",
+            "SEED": "42"
+            }
+            generator = MapGenerator(config)
+            generator.generate()
+            generator.find_exit()
         """
         self.map = Map(config)
 

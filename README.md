@@ -257,15 +257,19 @@ mazegen/
 
 Current reusable components:
 
-* `Cell`
-* `Map`
-* `MapGenerator`
+* `Cell` – individual maze cell representation
+* `Map` – maze data structure and connectivity management
+* `MapGenerator` – maze generation and solving engine
 
 The package architecture was designed to allow future installation through `pip`.
 
 ---
 
-# Reusable Module Example
+## Using the Reusable Package
+
+The reusable package can be used independently from the main application.
+
+### Basic Example
 
 ```python
 from mazegen import MapGenerator
@@ -276,7 +280,8 @@ config = {
     "ENTRY": "0,0",
     "EXIT": "19,19",
     "OUTPUT_FILE": "maze.txt",
-    "PERFECT": "TRUE"
+    "PERFECT": "TRUE",
+    "SEED": "42"
 }
 
 generator = MapGenerator(config)
@@ -284,6 +289,37 @@ generator = MapGenerator(config)
 generator.generate()
 generator.find_exit()
 ```
+
+### Custom Parameters
+
+The generator supports:
+
+* Custom maze dimensions
+* Custom entry and exit positions
+* Perfect and imperfect maze generation
+* Optional deterministic generation using a seed
+
+### Accessing the Generated Structure
+
+After calling `generate()`, the generated maze is available through:
+
+```python
+generator.map
+```
+
+The internal map contains the maze grid, cells, dimensions, entry and exit positions, and utility methods used during generation and solving.
+
+### Accessing a Solution
+
+Calling `find_exit()` computes the shortest path between the entry and exit cells using BFS.
+
+The resulting path is:
+
+* Exported to the configured output file
+* Marked internally through the visited state of the cells belonging to the shortest path
+The solution is written to the output file and represented in the maze by visited path cells after calling `find_exit()`.
+
+This information can then be reused by external visualization or analysis tools.
 
 ---
 
@@ -295,11 +331,12 @@ generator.find_exit()
 ├── parser.py
 ├── visualizer.py
 ├── color_themes.py
-├── errors.py
 ├── config.txt
 ├── README.md
 └── mazegen/
+    ├──__init__.py
     ├── cell.py
+    ├── errors.py
     ├── map.py
     └── map_generator.py
 ```
@@ -308,21 +345,76 @@ generator.find_exit()
 
 # Installation
 
-TODO
+## Requirements
+
+* Python 3.10 or later
+* pip
+* make
+
+## Install Development Dependencies
+
+The project provides a Makefile to automate common tasks:
+
+```bash
+make install
+```
+
+This command installs the required development tools:
+
+* flake8
+* mypy
+* build
+
+## Build the Reusable Package
+
+The reusable maze generator can be packaged and distributed using:
+
+```bash
+make build
+```
+
+This generates both source and wheel distributions inside the `dist/` directory.
+
+## Install the Package
+
+After building, the package can be installed locally:
+
+```bash
+pip install dist/mazegen-1.0.0-py3-none-any.whl
+```
+
+Alternatively:
+
+```bash
+pip install dist/mazegen-1.0.0.tar.gz
+```
+
+## Available Makefile Commands
+
+| Command            | Description                             |
+| ------------------ | --------------------------------------- |
+| `make install`     | Install project dependencies            |
+| `make run`         | Execute the maze generator              |
+| `make debug`       | Run the project using Python's debugger |
+| `make build`       | Build the reusable package              |
+| `make lint`        | Run flake8 and mypy checks              |
+| `make lint-strict` | Run strict static analysis              |
+| `make clean`       | Remove cache and build files            |
+| `make fclean`      | Clean caches and generated maze output  |
+| `make re`          | Regenerate the maze from scratch        |
+
 
 ---
 
 # Team & Project Management
 
-## Team Workflow
+## Team Roles
 
-The entire project was developed collaboratively in real time instead of dividing isolated tasks between team members.
+The project was developed collaboratively by both team members throughout its entire lifecycle.
 
-This approach allowed us to:
+Rather than assigning isolated components to each developer, design decisions, algorithm implementation, debugging sessions, and architecture discussions were performed jointly.
 
-* Debug algorithms together
-* Validate maze coherence continuously
-* Iterate quickly on architecture decisions
+This collaborative workflow allowed continuous validation of both the maze generation logic and the visualization system while ensuring a shared understanding of the entire codebase.
 
 ---
 
@@ -359,7 +451,13 @@ Managing visual clarity while preserving maze coherence required several iterati
 
 ## What Could Be Improved
 
-TODO
+Although the project successfully achieves its goals, several areas could be further improved:
+
+* The terminal visualization system could be enhanced to provide a cleaner and more dynamic user experience.
+* Color management could be redesigned to allow more advanced themes, better customization, and improved accessibility.
+* The public API of the reusable `mazegen` package could be expanded to expose maze structures and solution data more directly, making integration into external projects easier.
+* Additional automated tests could be added to improve maintainability and long-term reliability.
+* The package documentation could be extended with more examples and advanced usage scenarios.
 
 ---
 
@@ -385,11 +483,6 @@ All core algorithms, architecture decisions, and implementations were developed 
 * BFS shortest path references
 * ANSI terminal color documentation
 
-## Additional Resources
-
-TODO
-
----
 
 # Future Improvements
 
@@ -401,5 +494,7 @@ Possible future additions include:
 * Performance optimizations
 * Advanced package distribution
 * Full docstring documentation
-
+* Public API improvements for the reusable package
+* Direct access to shortest path data through the package interface
+* Additional export formats (JSON, SVG, PNG)
 ---
