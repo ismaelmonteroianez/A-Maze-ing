@@ -147,11 +147,12 @@ def parser(argv: str) -> dict[str, str]:
             if len(parameter) == 2:
                 if parameter[0] in config:
                     raise InvalidConfiguration("repeated key "
-                                            f"in parameter {parameter[0]}")
+                                               f"in parameter {parameter[0]}")
                 config[parameter[0].upper()] = parameter[1]
             else:
                 raise InvalidConfiguration("number of parameters "
-                                        f"must be 2, you had {len(parameter)}")
+                                           "must be 2, "
+                                           f"you had {len(parameter)}")
     for key in mandatory_keys:
         if key in config.keys():
             try:
