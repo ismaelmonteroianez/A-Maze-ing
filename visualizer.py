@@ -144,12 +144,13 @@ def menu(config: dict[str, str]) -> None:
         print("1. Re-generate a new maze")
         print("2. Show/Hide path from entry to exit")
         print("3. Rotate maze colours")
-        print("4. Toggle 42 pattern colours")
-        print("5. Toggle seed")
-        print("6. Exit")
+        print("4. Toggle walls pattern colours")
+        print("5. Toggle 42 pattern colours")
+        print("6. Toggle seed")
+        print("7. Exit")
         print()
 
-        choice = input("Choice? (1-6): ")
+        choice = input("Choice? (1-7): ")
 
         if choice == "1":
             generator.generate()
@@ -159,12 +160,17 @@ def menu(config: dict[str, str]) -> None:
             show_path = not show_path
 
         elif choice == "3":
+            color_themes.next_walls_theme()
+            color_themes.next_42_theme()
             color_themes.next_theme()
 
         elif choice == "4":
-            color_themes.next_42_theme()
+            color_themes.next_walls_theme()
 
         elif choice == "5":
+            color_themes.next_42_theme()
+
+        elif choice == "6":
             if generator.map.ind_seed:
                 generator.map.ind_seed = False
             else:
@@ -175,7 +181,7 @@ def menu(config: dict[str, str]) -> None:
             generator.generate()
             generator.find_exit()
 
-        elif choice == "6":
+        elif choice == "7":
             os.system("clear")
             break
 

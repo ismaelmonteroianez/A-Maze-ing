@@ -170,7 +170,7 @@ def parser(argv: str) -> dict[str, str]:
                 raise InvalidConfiguration(e)
         else:
             raise InvalidConfiguration("The following arguments are "
-                                       f"mandatory: {mandatory_keys.keys()}")
+                                       f"mandatory: {list(mandatory_keys.keys())}")
     for key in optional_keys:
         if key in config.keys():
             try:

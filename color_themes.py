@@ -183,6 +183,17 @@ class ColorThemes:
 
         self.forty_two_index = 0
 
+        self.walls_colors = [
+            self.color("██", 96),
+            self.color("██", 92),
+            self.color("██", 95),
+            self.color("██", 93),
+            self.color("██", 91),
+            self.color("██", 37),
+        ]
+
+        self.walls_index = 0
+
     def color(self, text: str, code: int) -> str:
         """
         Apply ANSI color formatting to a text string.
@@ -206,6 +217,7 @@ class ColorThemes:
         """
         theme = self.themes[self.index].copy()
         theme["forty_two"] = (self.forty_two_colors[self.forty_two_index])
+        theme["wall"] = (self.walls_colors[self.walls_index])
         return theme
 
     def next_theme(self) -> None:
@@ -230,3 +242,15 @@ class ColorThemes:
         self.forty_two_index += 1
         if self.forty_two_index >= len(self.forty_two_colors):
             self.forty_two_index = 0
+
+    def next_walls_theme(self) -> None:
+        """
+        Cycle to the next wall color in the rotation palette.
+        Updates only the wall color used when rendering maze
+        borders and obstacles, cycling through predefined colors.
+        Returns:
+            None
+        """
+        self.walls_index += 1
+        if self.walls_index >= len(self.walls_colors):
+            self.walls_index = 0
