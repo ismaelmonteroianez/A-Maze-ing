@@ -6,7 +6,7 @@ all:
 	@echo "Available targets: install run debug lint clean"
 
 install:
-	python3 -m pip install flake8 mypy build
+	python3 -m pip install build
 
 run:
 	python3 a_maze_ing.py $(CONFIG)

@@ -74,7 +74,7 @@ def check_bool(value: str) -> None:
         InvalidConfiguration: If the value is not a valid boolean.
     """
     if not (value.upper() == "TRUE" or value.upper() == "FALSE"):
-        raise InvalidConfiguration(f"{value} must be True or False only")
+        raise InvalidConfiguration(f"PERFECT value must be True or False only")
 
 
 def check_invalid_cord(config: dict[str, str]) -> None:
@@ -150,9 +150,9 @@ def parser(argv: str) -> dict[str, str]:
                                                f"in parameter {parameter[0]}")
                 config[parameter[0].upper()] = parameter[1]
             else:
-                raise InvalidConfiguration("number of parameters "
-                                           "must be 2, "
-                                           f"you had {len(parameter)}")
+                raise InvalidConfiguration("parameters "
+                                           "must be key=value only")
+                                           
     for key in mandatory_keys:
         if key in config.keys():
             try:

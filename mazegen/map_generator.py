@@ -1,6 +1,7 @@
 from mazegen.map import Map
 import random
 from mazegen.cell import Cell
+from .errors import InvalidConfiguration
 """
 Maze generation and solving engine.
 
@@ -11,11 +12,6 @@ This module implements the full maze generation pipeline, including:
 - Shortest path computation
 - Output file serialization in the required format
 """
-
-
-class InvalidConfiguration(Exception):
-    pass
-
 
 class MapGenerator():
     """
