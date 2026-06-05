@@ -13,6 +13,7 @@ This module implements the full maze generation pipeline, including:
 - Output file serialization in the required format
 """
 
+
 class MapGenerator():
     """
     Main maze generation and solving controller.

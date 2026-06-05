@@ -184,12 +184,9 @@ class ColorThemes:
         self.forty_two_index = 0
 
         self.walls_colors = [
-            self.color("██", 96),
-            self.color("██", 92),
-            self.color("██", 95),
-            self.color("██", 93),
-            self.color("██", 91),
-            self.color("██", 37),
+            self.color("██", 34),
+            self.color("██", 35),
+            self.color("██", 36)
         ]
 
         self.walls_index = 0

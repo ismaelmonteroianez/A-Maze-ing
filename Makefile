@@ -6,7 +6,7 @@ all:
 	@echo "Available targets: install run debug lint clean"
 
 install:
-	python3 -m pip install build
+	python3 -m pip install build flake8 mypy
 
 run:
 	python3 a_maze_ing.py $(CONFIG)
@@ -35,7 +35,6 @@ clean:
 	rm -rf .pytest_cache/
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	rm -rf build/
-	rm -rf dist/
 	rm -rf *.egg-info
 
 fclean: clean
